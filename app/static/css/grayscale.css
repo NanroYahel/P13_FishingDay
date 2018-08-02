@@ -41,15 +41,15 @@
   }
   #mainNav .navbar-brand {
     padding: .5rem 0;
-    color: rgba(255, 255, 255, 0.5);
+    color: #161616;
   }
   #mainNav .nav-link {
     transition: none;
     padding: 2rem 1.5rem;
-    color: rgba(255, 255, 255, 0.5);
+    color: #161616;
   }
   #mainNav .nav-link:hover {
-    color: rgba(255, 255, 255, 0.75);
+    color: #64a19d;
   }
   #mainNav .nav-link:active {
     color: white;
@@ -71,12 +71,12 @@
   #mainNav.navbar-shrink .nav-link:active {
     color: #467370;
   }
-  #mainNav.navbar-shrink .nav-link.active {
+/*  #mainNav.navbar-shrink .nav-link.active {
     color: #64a19d;
     outline: none;
     border-bottom: 0.25rem solid #64a19d;
   }
-}
+*/}
 
 .masthead {
   position: relative;
@@ -84,7 +84,7 @@
   height: auto;
   min-height: 35rem;
   padding: 15rem 0;
-  background: linear-gradient(to bottom, rgba(22, 22, 22, 0.1) 0%, rgba(22, 22, 22, 0.5) 75%, #161616 100%), url("../img/bg-masthead.jpg");
+  background:  url("../img/boat.svg");
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: scroll;
@@ -96,9 +96,10 @@
   font-size: 2.5rem;
   line-height: 2.5rem;
   letter-spacing: 0.8rem;
-  background: -webkit-linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0));
+  word-spacing: -150%;
+/*  background: -webkit-linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0));
   -webkit-text-fill-color: transparent;
-  -webkit-background-clip: text;
+  -webkit-background-clip: text;*/
 }
 
 .masthead h2 {
@@ -166,7 +167,7 @@
 }
 
 .projects-section {
-  padding: 10rem 0;
+  padding: 3rem 0;
 }
 
 .projects-section .featured-text {
@@ -190,7 +191,7 @@
     padding: 5rem;
   }
   .projects-section .project-text hr {
-    border-color: #64a19d;
+    border-color: #fff;
     border-width: .25rem;
     width: 30%;
   }
@@ -198,7 +199,7 @@
 
 .signup-section {
   padding: 10rem 0;
-  background: linear-gradient(to bottom, rgba(22, 22, 22, 0.1) 0%, rgba(22, 22, 22, 0.5) 75%, #161616 100%), url("../img/bg-signup.jpg");
+  background: linear-gradient(to bottom, rgba(22, 22, 22, 0.1) 0%, rgba(22, 22, 22, 0.5) 75%, #161616 100%), url("../img/boat.svg");
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: scroll;
@@ -287,4 +288,55 @@ a:focus, a:hover {
 
 footer {
   padding: 5rem 0;
+}
+
+.bg-project{
+  background: #00828d;
+}
+
+.form-inline input {
+  box-shadow: 0 0.1875rem 0.1875rem 0 rgba(0, 0, 0, 0.1) !important;
+  padding: 1.25rem 2rem;
+  font-family: 'Varela Round';
+  font-size: 80%;
+  text-transform: uppercase;
+  letter-spacing: 0.15rem;
+  border: 1px solid;
+}
+
+@media (max-width: 768px){
+  .form-inline input{
+    font-size: 70%;
+    letter-spacing: 0.10rem;
+  }
+}
+
+#zoneTitre{
+  margin-top: -150px;
+}
+
+.result-header{
+  line-height: 1.5;
+  min-height: 88px;
+  background-color: #00828d;
+}
+
+@media (max-width: 992px){
+  .result-header{
+    min-height: 56px;
+  }
+}
+
+.result-section .container{
+  margin-left: 1em;
+}
+
+.result-section .table{
+  font-size: 0.8em;
+}
+
+@media (min-width: 1200px){
+  .container{
+    max-width: 1810px;
+  }
 }
