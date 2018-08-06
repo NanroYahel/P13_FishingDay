@@ -27,6 +27,16 @@ class TestRoutes(object):
         rv = self.app.get('/')
         assert rv.status_code == 200
 
+    def test_about_route(self):
+        """Test that the about view return a 200 code"""
+        rv = self.app.get('/about')
+        assert rv.status_code == 200
+
+    def test_legal_route(self):
+        """Test that the legal view return a 200 code"""
+        rv = self.app.get('/legal')
+        assert rv.status_code == 200
+
     def test_result_route(self, monkeypatch):
         """Test that the result view get 200 code with POST request and 401 with GET"""
         def mockreturn(city):
