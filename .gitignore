@@ -2,5 +2,5 @@ venv/
 app/__pycache__/
 __pycache__/
 tests/__pycache__/
-config.py
+api_keys.py
 .pytest_cache/

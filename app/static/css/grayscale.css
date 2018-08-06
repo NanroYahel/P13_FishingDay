@@ -199,8 +199,9 @@
 
 .signup-section {
   padding: 10rem 0;
-  background: linear-gradient(to bottom, rgba(22, 22, 22, 0.1) 0%, rgba(22, 22, 22, 0.5) 75%, #161616 100%), url("../img/boat.svg");
-  background-position: center;
+  background:  url("../img/boat_cut.png");
+  /*background: linear-gradient(to bottom, rgba(22, 22, 22, 0.1) 0%, rgba(22, 22, 22, 0.2) 75%, #161616 100%), url("../img/boat.svg");*/
+  background-position: bottom;
   background-repeat: no-repeat;
   background-attachment: scroll;
   background-size: cover;
@@ -260,13 +261,19 @@
   color: #fff;
 }
 
+html, body{
+  height: 100%;
+  margin:0;
+  padding:0;
+}
+
 body {
   font-family: 'Nunito';
   letter-spacing: 0.0625em;
 }
 
 a {
-  color: #64a19d;
+  color: #fff;
 }
 
 a:focus, a:hover {
@@ -275,7 +282,12 @@ a:focus, a:hover {
 }
 
 .bg-black {
-  background-color: #161616 !important;
+  /*background-color: #161616 !important;*/
+/*  background-color: #00828D !important;*/
+  background:  url("../img/boat.svg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: bottom;
 }
 
 .bg-primary {
@@ -287,7 +299,18 @@ a:focus, a:hover {
 }
 
 footer {
-  padding: 5rem 0;
+  height: 4rem;
+  width: 100%;
+  padding-top: 1rem;
+  background:  url("../img/sea.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+@media (max-width: 768px){
+  footer{
+    padding-top: 0;
+  }
 }
 
 .bg-project{
@@ -315,14 +338,18 @@ footer {
   margin-top: -150px;
 }
 
-.result-header{
+.standard-header{
   line-height: 1.5;
   min-height: 88px;
-  background-color: #00828d;
+/*  background-color: #00828D;*/
+  background:  url("../img/sea.png");
+  background-repeat: no-repeat;
+  background-position: top;
+  background-size: cover;
 }
 
 @media (max-width: 992px){
-  .result-header{
+  .standard-header{
     min-height: 56px;
   }
 }
@@ -336,7 +363,36 @@ footer {
 }
 
 @media (min-width: 1200px){
-  .container{
+  .result-section .container{
     max-width: 1810px;
   }
+}
+
+.footer-link{
+  padding-right: 1em;
+  padding-left: 1em;
+}
+
+
+.footer-link a{
+  color:#fff !important;
+}
+@media (min-width: 992px){
+  .separator{
+    border-right: solid #8D8D8D 1px;
+  }
+}
+
+#main-container { 
+   min-height:100%; 
+   margin-bottom: -4rem ;   /* Hauteur du pied de page */ 
+} 
+
+#push-footer { 
+   width:100%; 
+   height: 4rem;   /* Hauteur du pied de page */ 
+}
+
+#legal a{
+  color:#00828d;
 }
