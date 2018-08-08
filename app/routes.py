@@ -1,8 +1,6 @@
 from flask import render_template, request
 from app import app
 
-import config as conf
-
 from app import utils
 from app.forms import LocationForm
 
@@ -18,8 +16,9 @@ def index():
 def result():
 	"""View used to display result of the users search"""
 	city = request.form['location']
-	meteo_data = utils.get_meteo_for_city(city)
-	return render_template('result.html', meteo=meteo_data, city=city)
+	lat, lon, meteo_data = utils.get_meteo_for_city(city)
+	tides_data = utils.get_tides_for_city(lat, lon)
+	return render_template('result.html', meteo=meteo_data, city=city, tides=tides_data)
 
 @app.route('/about')
 def about():
@@ -30,3 +29,10 @@ def about():
 def legal():
 	"""Display legal informations"""
 	return render_template('legal.html')
+
+# @app.route('/test_result')
+# def test_result():
+# 	"""TEST VIEW FOR DEVELOPMENT- TO DELETE"""
+# 	lat, lon, meteo_data = utils.get_meteo_for_city('test')
+# 	tides_data = utils.get_tides_for_city(lat, lon)
+# 	return render_template('test_result.html', city='TEST', meteo=meteo_data, tides=tides_data)

@@ -396,3 +396,12 @@ footer {
 #legal a{
   color:#00828d;
 }
+
+.test_map_div {
+  width: 100%;
+  height: 100%;
+}
+
+.result_section hr{
+  border-color: black;
+}
