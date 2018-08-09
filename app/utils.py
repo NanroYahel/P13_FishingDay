@@ -3,6 +3,7 @@
 import datetime
 import calendar
 import time
+import arrow
 import requests as req
 
 from app import app
@@ -92,7 +93,7 @@ class MeteoDay:
     """Class containing all the meteo informations for a period"""
 
     def __init__(self, meteo):
-        self.date = datetime.datetime.strptime(meteo['dt_txt'], '%Y-%m-%d %H:%M:%S')
+        self.date = arrow.get(meteo['dt']).to('Europe/Paris')
         self.img = meteo['weather'][0]['icon']
         self.cloud = meteo['clouds']['all']
         self.temp = convert_temp(meteo['main']['temp'])
@@ -111,7 +112,7 @@ class TideExtreme:
     """Class containing all the tide informations for a 'tide extreme' """
 
     def __init__(self, tides):
-        self.time = datetime.datetime.fromtimestamp(tides['dt']) #+ datetime.timedelta(hours=2)
+        self.time = arrow.get(tides['dt']).to('Europe/Paris')
         self.day = find_weekday(self.time)
         self.type = convert_type_fr(tides['type'])
         self.height = round(tides['height'], 2)
