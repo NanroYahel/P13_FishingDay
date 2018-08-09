@@ -95,7 +95,7 @@ class TestUtils(object):
         assert lat_test == 47.6587
         assert lon_test == -2.76
         assert len(test_result) == 40
-        assert test_result[0].date == datetime(2018, 8, 1, 9, 0)
+        assert test_result[0].date.strftime('%H') == '11'
         assert test_result[0].img == '02d'
         assert test_result[0].cloud == 20
         assert test_result[0].temp == 16
@@ -114,7 +114,7 @@ class TestUtils(object):
         test_result = utils.get_tides_for_city(-2.6667, 47.5)
 
         assert len(test_result) == 11
-        assert test_result[0].time == datetime(2018, 8, 7, 7, 53, 15)
+        assert test_result[0].time.strftime('%H:%M') == '07:53'
         assert test_result[0].day == 'Mardi'
         assert test_result[0].type == 'BM'
         assert test_result[0].height == -1.51
