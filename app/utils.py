@@ -65,6 +65,7 @@ def convert_temp(temp_kelvin):
     return temp_celsius
 
 def convert_wind_speed(speed_ms):
+    """Convert wind speed form m/s to Knots"""
     speed_kts = round(speed_ms/0.514, 0)
     return speed_kts
 

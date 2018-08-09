@@ -1,14 +1,10 @@
 language: python
 python:
-  - '3.5'
-
-branches:
-  only:
-    - staging
-
+- '3.5'
 before-script:
-  - pip install -r requirements.txt
-
+- pip install -r requirements.txt
 script:
-  - pytest
-
+- pytest
+deploy:
+  api_key:
+    secure: hYQD71qPHe3Q7UtLXWyFx4D8UeUIMFuD57NhXkMNlSuikhEGpis0SdXvp+Edp7QH276HvYranOqLZhhkouh06BLdc1Wf98cAaKTOUx+iQijh5TqQrh6QHRs3VliQ44/Lxe2aifMmxGRviwc9Z6V0CJGhKBMNp3fsk53F48Khtl46RiCEKt3xn8v6C/u1QHiisYE/3KPrjWMGNDqQt67LEe9pDMMxeSvMo0448Tx2LW4ZM2SS19FpdtjKCIRqTXnZINrLxSMRr6JArNm0/2RYfonRybnsiVBm45qlEAjZBD6FKnprFxb0uifxPiMC/mH3H4iNPI37FdmimJFJextJN4KNicbYnKEGQB+ki4vt4invK4o6KQZiRPeILwfyghopjQhAHO4md/wQbsPChL4XzuFZh6OH0NLmEbR3fEkhxY/K6oPErGyoH1gsHcL8G8/36F6iMQb+po6ppO88qIRO1+AsfUGfRx4wmWH0JdkwSDzvA9Kyo9EbarcY8D9N+qQWIp0TV1iGWca0IBJ16O05iCXofDbQ3LLnGKHnDI4yvdFnCd6cHfgtPT2B98CehFnE3TI7ud8zj1b5bxv/mtTDQFw2BAw4QsbJFyk/o9p72L1b8LM0V/xH66bt6A5sfywc0QTYGXXHevAt3nz0F+zPYcBMImRRynN0i6o30/PZB6Y=
