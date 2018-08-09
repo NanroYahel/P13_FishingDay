@@ -61,7 +61,6 @@ class TestRoutes(object):
         assert rv_get.status_code == 405
 
 
-
 ########## Testing functions of 'utils.py' module #######
 
 class TestUtils(object):

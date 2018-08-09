@@ -1,4 +1,4 @@
-from flask import render_template, request
+from flask import render_template, request, redirect, url_for, flash
 from app import app
 
 from app import utils
@@ -15,10 +15,15 @@ def index():
 @app.route('/result', methods=['POST'])
 def result():
 	"""View used to display result of the users search"""
-	city = request.form['location']
-	lat, lon, meteo_data = utils.get_meteo_for_city(city)
-	tides_data = utils.get_tides_for_city(lat, lon)
-	return render_template('result.html', meteo=meteo_data, city=city, tides=tides_data)
+	city = request.form['location'].upper()
+	try:
+		lat, lon, meteo_data = utils.get_meteo_for_city(city)
+		tides_data = utils.get_tides_for_city(lat, lon)
+	except KeyError:
+		flash('Aucun résultat pour la ville cherchée, essayez une autre ville.')
+		return redirect(url_for('index'))
+	return render_template('result.html', meteo=meteo_data, city=city, \
+								tides=tides_data, lat=lat, lon=lon)
 
 @app.route('/about')
 def about():

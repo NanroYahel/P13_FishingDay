@@ -13,7 +13,15 @@
         {{ form.location(class="form-control flex-fill mr-0 mr-sm-2 mb-3 mb-sm-0", placeholder="Où voulez-vous pêcher ? ") }}
         {{form.submit(class="btn btn-primary js-scroll-trigger")}}
       </form>
-<!--       <a href="#projects" class="btn btn-primary js-scroll-trigger">Chercher un lieu</a> -->
+
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          {% for message in messages %}
+          <p class="no-city">{{ message }}</p>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+
     </div>
   </div>
 </header>
@@ -32,7 +40,7 @@
     <!-- Project One Row -->
     <div class="row justify-content-center no-gutters mb-1 mb-lg-0">
       <div class="col-lg-6">
-        <img class="img-fluid" src="{{ url_for('static', filename='img/meteo_2.png') }}" alt="">
+        <img class="img-fluid" src="{{ url_for('static', filename='img/meteo_screen.png') }}" alt="">
       </div>
       <div class="col-lg-6">
         <div class="bg-project text-center h-100 project">
@@ -50,7 +58,7 @@
     <!-- Project Two Row -->
     <div class="row justify-content-center no-gutters mb-1 mb-lg-0">
       <div class="col-lg-6">
-        <img class="img-fluid" src="{{ url_for('static', filename='img/no_img.png') }}" alt="">
+        <img class="img-fluid" src="{{ url_for('static', filename='img/tides_screen.png') }}" alt="">
       </div>
       <div class="col-lg-6 order-lg-first">
         <div class="bg-project text-center h-100 project">
@@ -67,7 +75,7 @@
 
     <!-- Project Three Row -->
     <div class="row justify-content-center no-gutters mb-1 mb-lg-0">
-      <div class="col-lg-6">
+      <div class="col-lg-6 mx-auto my-auto">
         <img class="img-fluid" src="{{ url_for('static', filename='img/no_img.png') }}" alt="">
       </div>
       <div class="col-lg-6">

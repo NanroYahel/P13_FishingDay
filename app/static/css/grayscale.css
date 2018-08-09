@@ -1,7 +1,11 @@
 #mainNav {
   min-height: 56px;
-  background-color: #fff;
+  background-color: transparent;
 }
+
+#mainNav.navbar-shrink {
+    background-color: #fff;
+  }
 
 #mainNav .navbar-toggler {
   font-size: 80%;
@@ -36,7 +40,6 @@
     padding-top: 0;
     padding-bottom: 0;
     border-bottom: none;
-    background-color: transparent;
     transition: background-color 0.3s ease-in-out;
   }
   #mainNav .navbar-brand {
@@ -54,9 +57,6 @@
   #mainNav .nav-link:active {
     color: white;
   }
-  #mainNav.navbar-shrink {
-    background-color: #fff;
-  }
   #mainNav.navbar-shrink .navbar-brand {
     color: #161616;
   }
@@ -71,12 +71,7 @@
   #mainNav.navbar-shrink .nav-link:active {
     color: #467370;
   }
-/*  #mainNav.navbar-shrink .nav-link.active {
-    color: #64a19d;
-    outline: none;
-    border-bottom: 0.25rem solid #64a19d;
-  }
-*/}
+}
 
 .masthead {
   position: relative;
@@ -350,7 +345,7 @@ footer {
 
 @media (max-width: 992px){
   .standard-header{
-    min-height: 56px;
+    min-height: 75px;
   }
 }
 
@@ -400,8 +395,35 @@ footer {
 .test_map_div {
   width: 100%;
   height: 100%;
+  padding: 1rem;
 }
 
-.result_section hr{
+/*.result-section hr{
   border-color: black;
+}*/
+
+.result-section .table td, .table th{
+  text-align: center;
+  vertical-align: middle;
+}
+
+.ui-selectmenu-open{
+  /*Fix display bug from navionics api*/
+  display:none !important;
+}
+
+
+@media (max-width: 992px){
+  #day-2 .meteo-row, #day-3 .meteo-row{
+    display: none;
+  }
+  .result-section .table td, .table th{
+  padding: 0.15rem;
+  }
+}
+
+header .no-city{
+  font-style: italic;
+  color:red;
+  text-align: left;
 }
