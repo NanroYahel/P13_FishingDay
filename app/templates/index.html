@@ -10,6 +10,7 @@
       <h2 class="mx-auto mt-1 mb-4">Mettez toutes les chances de votre côté !</h2>
       <form class="form-inline d-flex mb-2" method="post" action="{{ url_for('result') }}">
         <!-- <input type="text" class="form-control flex-fill mr-0 mr-sm-2 mb-3 mb-sm-0" id="inputSearch" placeholder="Où voulez-vous pêcher ? " method="post" name="location"> -->
+        {{ form.hidden_tag() }}
         {{ form.location(class="form-control flex-fill mr-0 mr-sm-2 mb-3 mb-sm-0", placeholder="Où voulez-vous pêcher ? ") }}
         {{form.submit(class="btn btn-primary js-scroll-trigger")}}
       </form>
@@ -17,7 +18,7 @@
       {% with messages = get_flashed_messages() %}
         {% if messages %}
           {% for message in messages %}
-          <p class="no-city">{{ message }}</p>
+          <p class="form-error">{{ message }}</p>
           {% endfor %}
         {% endif %}
       {% endwith %}

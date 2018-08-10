@@ -38,12 +38,21 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
+            {% if current_user.is_anonymous %}
             <li class="nav-item">
-              <a class="nav-link" href="#signin">Se connecter</a>
+              <a class="nav-link" href="{{ url_for('login') }}">Se connecter</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#signup">S'inscrire</a>
+              <a class="nav-link" href="{{ url_for('register') }}">S'inscrire</a>
             </li>
+            {% else %}
+            <li class="nav-item">
+              <a class="nav-link" href="#Account">Mon compte</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('logout') }}">Deconnexion</a>
+            </li>
+            {% endif %}
           </ul>
         </div>
       </div>

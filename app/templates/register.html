@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<header class="standard-header">
+	<div class="container">
+		
+	</div>
+</header>
+
+<section class="" id="login">
+  <div class="container text-center mt-2 pt-5">
+
+  	<h1>Inscription</h1>
+  	  {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          {% for message in messages %}
+          <p class="form-error mx-auto">{{ message }}</p>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+  	  <form class="col-lg-5 col-md-6 mx-auto" action="" method="post" novalidate>
+  			{{ form.hidden_tag() }}
+        <p>
+          {{ form.username.label }}<br>
+          {{ form.username(class="form-control flex-fill mr-0 mr-sm-2 mb-3 mb-sm-0", placeholder="Toto") }}
+        </p>
+        <p>
+  				{{ form.email.label }}<br>
+  				{{ form.email(class="form-control flex-fill mr-0 mr-sm-2 mb-3 mb-sm-0", placeholder="Toto@email.com") }}
+  			</p>
+  			<p>  
+  				{{ form.password.label }}<br>
+  				{{ form.password(class="form-control flex-fill mr-0 mr-sm-2 mb-3 mb-sm-0", placeholder="********") }}
+  			</p>
+        <p>
+          {{ form.password_confirm.label }}<br>
+          {{ form.password_confirm(class="form-control flex-fill mr-0 mr-sm-2 mb-3 mb-sm-0", placeholder="********") }}
+        </p>
+  			<p>{{ form.submit() }}</p>
+  	  </form>
+
+  </div>
+</section>
+
+{% endblock %}

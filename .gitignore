@@ -6,3 +6,4 @@ api_keys.py
 .pytest_cache/
 app/templates/test_result.html
 app/templates/test_result_save.html
+app.db

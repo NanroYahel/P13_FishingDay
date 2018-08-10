@@ -422,8 +422,12 @@ footer {
   }
 }
 
-header .no-city{
+.form-error{
   font-style: italic;
   color:red;
+  text-align: center;
+}
+header .form-error{
   text-align: left;
 }
+

@@ -28,8 +28,8 @@ def get_meteo_for_city(city):
     """Method to get the meteo data with the api"""
     url = "http://api.openweathermap.org/data/2.5/forecast?q={},fr&mode=json&APPID={}".format(city,\
         app.config['OWM_API_KEY'])
-    meteo_data = request_api(url)
-    # meteo_data = mock_meteo #Use for development
+    # meteo_data = request_api(url)
+    meteo_data = mock_meteo #Use for development
     list_meteo_day = []
     for element in meteo_data['list']:
         new_meteo_day = MeteoDay(element)
@@ -44,8 +44,8 @@ def get_tides_for_city(lat, lon):
     today = time.time()
     url = "https://www.worldtides.info/api?extremes&start={}&length=259200&lat={}&lon={}&key={}".\
             format(today, lat, lon, app.config['WT_API_KEY'])
-    tides_data = request_api(url)
-    # tides_data = mock_tides #Use for development
+    # tides_data = request_api(url)
+    tides_data = mock_tides #Use for development
     list_tides_extreme = []
     for element in tides_data['extremes']:
         new_tide_extreme = TideExtreme(element)
