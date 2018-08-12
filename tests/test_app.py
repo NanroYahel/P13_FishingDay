@@ -7,9 +7,10 @@ from datetime import datetime
 
 import pytest
 
-from app import app, db
+from app import db, create_app
 from app import utils
 from app.models import User, City, UserSearch
+from config import ConfigTest
 
 
 @pytest.fixture(autouse=True)
@@ -18,13 +19,16 @@ def no_requests(monkeypatch):
     monkeypatch.delattr("requests.sessions.Session.request")
 
 
+
 ########## Testing Flask routes ###########
 
 class TestRoutes(object):
     """Class for testing the status code of the differents views"""
 
-    #Create a testing instance of the app
-    app = app.test_client()
+    # #Create a testing instance of the app
+    # app = app.test_client()
+    flask_app = create_app(ConfigTest)
+    app = flask_app.test_client()
 
     def test_index_route(self):
         """Test that the index view return a 200 code"""
@@ -69,7 +73,6 @@ class TestRoutes(object):
 
 class TestUtils(object):
     """Test the functions of 'utils.py' module"""
-
 
     def test_convert_direction(self):
         """Convert 200° to SSW"""

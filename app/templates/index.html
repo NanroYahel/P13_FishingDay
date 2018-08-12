@@ -8,7 +8,7 @@
     <div class="mx-auto text-center"  id="zoneTitre">
       <h1 class="mx-auto my-0 text-uppercase">Fishing Day</h1>
       <h2 class="mx-auto mt-1 mb-4">Mettez toutes les chances de votre côté !</h2>
-      <form class="form-inline d-flex mb-2" method="post" action="{{ url_for('result') }}">
+      <form class="form-inline d-flex mb-2" method="post" action="{{ url_for('main.result') }}">
         <!-- <input type="text" class="form-control flex-fill mr-0 mr-sm-2 mb-3 mb-sm-0" id="inputSearch" placeholder="Où voulez-vous pêcher ? " method="post" name="location"> -->
         {{ form.hidden_tag() }}
         {{ form.location(class="form-control flex-fill mr-0 mr-sm-2 mb-3 mb-sm-0", placeholder="Où voulez-vous pêcher ? ") }}

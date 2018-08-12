@@ -5,8 +5,8 @@ import calendar
 import time
 import arrow
 import requests as req
-
-from app import app, db
+from flask import current_app
+from app import db
 from app.models import User, City, UserSearch
 
 
@@ -28,7 +28,7 @@ def request_api(url):
 def get_meteo_for_city(city):
     """Method to get the meteo data with the api"""
     url = "http://api.openweathermap.org/data/2.5/forecast?q={},fr&mode=json&APPID={}".format(city,\
-        app.config['OWM_API_KEY'])
+        current_app.config['OWM_API_KEY'])
     meteo_data = request_api(url)
     # meteo_data = mock_meteo #Use for development
     list_meteo_day = []
@@ -44,7 +44,7 @@ def get_tides_for_city(lat, lon):
     """Method to get the tides data with the api"""
     today = time.time()
     url = "https://www.worldtides.info/api?extremes&start={}&length=259200&lat={}&lon={}&key={}".\
-            format(today, lat, lon, app.config['WT_API_KEY'])
+            format(today, lat, lon, current_app.config['WT_API_KEY'])
     tides_data = request_api(url)
     # tides_data = mock_tides #Use for development
     list_tides_extreme = []
@@ -118,14 +118,14 @@ def find_city(city, lat, lon):
 def save_city(city, lat, lon):
     """Save a city in the database"""
     city_to_save = City(name=city, lat=lat, lon=lon)
-    db.session.add(city_to_save)
-    db.session.commit()
+    current_app.db.session.add(city_to_save)
+    current_app.db.session.commit()
 
 def save_search(user_id, city_id):
     """Save a user search in the database"""
     search_to_save = UserSearch(user_id=user_id, city_id=city_id, count=1)
-    db.session.add(search_to_save)
-    db.commit()
+    current_app.db.session.add(search_to_save)
+    current_app.db.commit()
 
 
 ####### Classes #######
