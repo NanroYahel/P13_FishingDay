@@ -1,5 +1,5 @@
 from flask import render_template, request, redirect, url_for, flash
-from flask_login import current_user, login_user, logout_user
+from flask_login import current_user, login_user, logout_user, login_required
 
 from app import app, db
 from app import utils
@@ -18,14 +18,16 @@ def index():
 @app.route('/result', methods=['POST'])
 def result():
     """View used to display result of the users search"""
-    city = request.form['location'].upper()
+    city = request.form['location']
     try:
         lat, lon, meteo_data = utils.get_meteo_for_city(city)
         tides_data = utils.get_tides_for_city(lat, lon)
     except KeyError:
         flash('Aucun résultat pour la ville cherchée, essayez une autre ville.')
         return redirect(url_for('index'))
-    return render_template('result.html', meteo=meteo_data, city=city, \
+    # if current_user.is_authenticated:
+    #     utils.save_user_search(current_user.id, city, lat, lon)
+    return render_template('result.html', meteo=meteo_data, city=city.upper(), \
                                 tides=tides_data, lat=lat, lon=lon)
 
 @app.route('/about')
@@ -73,6 +75,16 @@ def register():
         flash('Merci pour votre inscription. Connectez-vous pour continuer !')
         return redirect(url_for('login'))
     return render_template('register.html', form=form)
+
+
+@app.route('/account')
+@login_required
+def account():
+    """View used to display user account informations"""
+    return render_template('account.html')
+
+
+
 # @app.route('/test_result')
 # def test_result():
 #   """TEST VIEW FOR DEVELOPMENT- TO DELETE"""

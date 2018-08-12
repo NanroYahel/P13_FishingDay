@@ -1,12 +1,16 @@
 #File containing all the units test for the application
 
 import json
+import os
+import tempfile
 from datetime import datetime
 
 import pytest
 
-from app import app
+from app import app, db
 from app import utils
+from app.models import User, City, UserSearch
+
 
 @pytest.fixture(autouse=True)
 def no_requests(monkeypatch):
@@ -66,6 +70,7 @@ class TestRoutes(object):
 class TestUtils(object):
     """Test the functions of 'utils.py' module"""
 
+
     def test_convert_direction(self):
         """Convert 200° to SSW"""
         result_test = utils.convert_direction(200)
@@ -117,4 +122,3 @@ class TestUtils(object):
         assert test_result[0].day == 'Mardi'
         assert test_result[0].type == 'BM'
         assert test_result[0].height == -1.51
-
