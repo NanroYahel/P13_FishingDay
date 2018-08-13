@@ -5,7 +5,7 @@ from app.main import bp
 from app import db
 from app import utils
 from app.forms import LocationForm, LoginForm, RegistrationForm
-from app.models import User
+from app.models import User, City, UserSearch
 
 @bp.route('/')
 @bp.route("/index")
@@ -25,8 +25,8 @@ def result():
     except KeyError:
         flash('Aucun résultat pour la ville cherchée, essayez une autre ville.')
         return redirect(url_for('main.index'))
-    # if current_user.is_authenticated:
-    #     utils.save_user_search(current_user.id, city, lat, lon)
+    if current_user.is_authenticated:
+        utils.save_user_search(current_user.id, city, lat, lon)
     return render_template('result.html', meteo=meteo_data, city=city.upper(), \
                                 tides=tides_data, lat=lat, lon=lon)
 
@@ -80,8 +80,13 @@ def register():
 @bp.route('/account')
 @login_required
 def account():
+    last_cities = []
+    last_searches = UserSearch.query.filter_by(user_id=current_user.id).order_by(UserSearch.timestamp.desc()).limit(10).all()
+    for search in last_searches:
+        city = City.query.get(search.city_id)
+        last_cities.append(city)
     """View used to display user account informations"""
-    return render_template('account.html')
+    return render_template('account.html', last_cities=last_cities)
 
 
 

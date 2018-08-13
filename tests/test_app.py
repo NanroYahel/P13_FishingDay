@@ -18,7 +18,37 @@ def no_requests(monkeypatch):
     """Function to avoid using http requests"""
     monkeypatch.delattr("requests.sessions.Session.request")
 
+@pytest.fixture(scope='module')
+def client():
+    """Fixture to create a testing app instance """
+    flask_app = create_app(ConfigTest)
+    client = flask_app.test_client()
 
+    ctx = flask_app.app_context()
+    ctx.push()
+
+    yield client
+
+    ctx.pop()
+
+@pytest.fixture(scope='module')
+def init_database():
+    """Create an instance of flask app with a test db"""
+    db.create_all()
+
+    #Insert 1 user, 1 city an 1 search
+    user = User(username='Cartman', email='eric@cartman.com')
+    city = City(name='South Park', lat=39.22, lon=-105.99)
+    db.session.add(user)
+    db.session.add(city)
+    search = UserSearch(user_id=1, city_id=1, count=1)
+    db.session.add(search)
+
+    db.session.commit()
+
+    yield db
+
+    db.drop_all()
 
 ########## Testing Flask routes ###########
 
@@ -27,25 +57,23 @@ class TestRoutes(object):
 
     # #Create a testing instance of the app
     # app = app.test_client()
-    flask_app = create_app(ConfigTest)
-    app = flask_app.test_client()
 
-    def test_index_route(self):
+    def test_index_route(self, client):
         """Test that the index view return a 200 code"""
-        rv = self.app.get('/')
+        rv = client.get('/')
         assert rv.status_code == 200
 
-    def test_about_route(self):
+    def test_about_route(self, client):
         """Test that the about view return a 200 code"""
-        rv = self.app.get('/about')
+        rv = client.get('/about')
         assert rv.status_code == 200
 
-    def test_legal_route(self):
+    def test_legal_route(self, client):
         """Test that the legal view return a 200 code"""
-        rv = self.app.get('/legal')
+        rv = client.get('/legal')
         assert rv.status_code == 200
 
-    def test_result_route(self, monkeypatch):
+    def test_result_route(self, client, monkeypatch):
         """Test that the result view get 200 code with POST request and 405 with GET"""
         def mockreturn_meteo(city):
             """Return an imitation of meteo result"""
@@ -63,8 +91,8 @@ class TestRoutes(object):
 
         monkeypatch.setattr(utils, 'get_meteo_for_city', mockreturn_meteo)
         monkeypatch.setattr(utils, 'get_tides_for_city', mockreturn_tides)
-        rv_post = self.app.post('/result', data={'location':'test'})
-        rv_get = self.app.get('result')
+        rv_post = client.post('/result', data={'location':'test'})
+        rv_get = client.get('result')
         assert rv_post.status_code == 200
         assert rv_get.status_code == 405
 
@@ -89,7 +117,7 @@ class TestUtils(object):
         result_test = utils.convert_wind_speed(3)
         assert result_test == 6
 
-    def test_get_meteo_for_city(self, monkeypatch):
+    def test_get_meteo_for_city(self, client, monkeypatch):
         """Test the result of the function with a mock instead of the api result"""
 
         def mockreturn(url):
@@ -110,7 +138,7 @@ class TestUtils(object):
         assert test_result[0].wind_degree == 359 
         assert test_result[0].wind_speed == 6
 
-    def test_get_tides_for_city(self, monkeypatch):
+    def test_get_tides_for_city(self, client, monkeypatch):
         """Test the result of the function with a mock instead of the api result"""
 
         def mockreturn(url):
@@ -125,3 +153,49 @@ class TestUtils(object):
         assert test_result[0].day == 'Mardi'
         assert test_result[0].type == 'BM'
         assert test_result[0].height == -1.51
+
+    def test_find_city(self, client, init_database):
+        """Test the function with the city 'South Park' should return : 1
+        Then test the function with the city 'Denver' should retrun False"""
+        assert utils.find_city('South Park', 39.22, -105.99) == 1
+        assert utils.find_city('Denver', 39.44, -104.59) == False
+
+    def test_save_city(self, client, init_database):
+        """Check if a city is correctly saved by the function 'save_city'"""
+        utils.save_city('Denver', 39.44, -104.59)
+        assert City.query.filter_by(name='Denver').first().name == 'Denver'
+
+    def test_save_search(self, client, init_database):
+        """Check if a search is correctly saved by the function 'save_search'"""
+
+        #Test that the search doesn't exists already
+        assert UserSearch.query.filter_by(user_id=1, city_id=2).first() is None
+        #Save a new city in the database and get its 'id'
+        utils.save_city('Denver', 39.44, -104.59)
+        id_new_city = utils.find_city('Denver', 39.44, -104.59)
+        #Save the new_search
+        utils.save_search(1, id_new_city)
+        assert UserSearch.query.filter_by(user_id=1, city_id=id_new_city).first() is not None
+
+    def test_save_user_search(self, client, init_database):
+        #Save a user search that already exists
+        utils.save_user_search(1,'South Park', 39.22, -105.99)
+        #Count may return 2
+        assert UserSearch.query.filter_by(user_id=1, city_id=1).first().count == 2
+
+        #Save a new user search with a existant city
+        #Test that the user search doesn't exists already
+        assert UserSearch.query.filter_by(user_id=1, city_id=4).first() is None
+        city = City(name='Cheyenne', lat=41.13, lon=-104.80)
+        db.session.add(city)
+        db.session.commit()
+        utils.save_user_search(1,'Cheyenne', 41.13, -104.80)
+        #Then test that the user search exists
+        assert UserSearch.query.filter_by(user_id=1, city_id=4).first() is not None
+
+        #Save a new user search with a non existant city
+        #Test that the user search doesn't exists already
+        assert UserSearch.query.filter_by(user_id=1, city_id=5).first() is None
+        utils.save_user_search(1,'Fort Collins', 40.55, -105.04)
+        #Then test that the user search exists
+        assert UserSearch.query.filter_by(user_id=1, city_id=5).first() is not None

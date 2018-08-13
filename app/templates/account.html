@@ -17,7 +17,9 @@
         <div class="col-lg-6 last-result">
           <h2>Dernières recherches</h2>
           <div class="table-last-results">
-            <p>{{ current_user.username }}</p>
+            {% for city in last_cities %}
+            <p>{{city.name}}</p>
+            {% endfor %}
           </div>
         </div>
         <div class="col-lg-6 map-favorites">

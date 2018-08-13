@@ -15,7 +15,9 @@ class Config(object):
 
 class ConfigTest(object):
 	"""Contain the configuration for the tests"""
-	SECRET_KEY = 'bad_secret_key'
+	SECRET_KEY = 'fake_secret_key'
+	OWM_API_KEY = 'fake_owm_api_key'
+	WT_API_KEY = 'fake_wt_api_key'
 	DEBUG = True
 	# DATABASE
 	SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(BASEDIR, 'app_test.db')

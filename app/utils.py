@@ -99,6 +99,7 @@ def save_user_search(user, city, lat, lon):
         if check_search is not None:
             #If the search has already been made, increment the count
             check_search.count += 1
+            db.session.commit()
         else:
             #Save the search
             save_search(user, city_searched)
@@ -112,20 +113,22 @@ def find_city(city, lat, lon):
     """Return False if the city doesn't exists in the database or the id if it does """
     city_to_find = City.query.filter_by(name=city, lat=lat, lon=lon)
     if city_to_find.all() == []:
-        return False
-    return city_to_find.first().id
+        city_searched = False
+    else:
+        city_searched = city_to_find.first().id
+    return city_searched
 
 def save_city(city, lat, lon):
     """Save a city in the database"""
     city_to_save = City(name=city, lat=lat, lon=lon)
-    current_app.db.session.add(city_to_save)
-    current_app.db.session.commit()
+    db.session.add(city_to_save)
+    db.session.commit()
 
 def save_search(user_id, city_id):
     """Save a user search in the database"""
     search_to_save = UserSearch(user_id=user_id, city_id=city_id, count=1)
-    current_app.db.session.add(search_to_save)
-    current_app.db.commit()
+    db.session.add(search_to_save)
+    db.session.commit()
 
 
 ####### Classes #######
