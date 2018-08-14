@@ -8,3 +8,4 @@ api_keys.py
 app/templates/test_result.html
 app/templates/test_result_save.html
 app.db
+app_test.db

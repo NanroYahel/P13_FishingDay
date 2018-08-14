@@ -1,4 +1,6 @@
-from flask import render_template, request, redirect, url_for, flash
+import arrow
+
+from flask import render_template, request, redirect, url_for, flash, current_app
 from flask_login import current_user, login_user, logout_user, login_required
 
 from app.main import bp
@@ -80,13 +82,27 @@ def register():
 @bp.route('/account')
 @login_required
 def account():
+    """View used to display user account informations"""
+    #Create 3 empty lists to stock the lasts views, the favorites cities and all the cities
     last_cities = []
-    last_searches = UserSearch.query.filter_by(user_id=current_user.id).order_by(UserSearch.timestamp.desc()).limit(10).all()
+    favorites_cities = []
+    all_cities = []
+    #Search the 5 lasts cities searched and add it to the list
+    last_searches = UserSearch.query.filter_by(user_id=current_user.id).order_by(UserSearch.timestamp.desc()).limit(5).all()
     for search in last_searches:
         city = City.query.get(search.city_id)
-        last_cities.append(city)
-    """View used to display user account informations"""
-    return render_template('account.html', last_cities=last_cities)
+        date = arrow.get(search.timestamp).to('Europe/Paris')
+        last_cities.append({'city': city, 'date': date.strftime('%d/%m/%y %H:%M:%S')})
+    #Search the 5 most searched cities and add it to the list
+    favorites_search = UserSearch.query.filter_by(user_id=current_user.id).order_by(UserSearch.count.desc()).limit(5).all()
+    for search in favorites_search:
+        city = City.query.get(search.city_id)
+        favorites_cities.append(city)
+    all_searches = UserSearch.query.filter_by(user_id=current_user.id).all()
+    for search in all_searches:
+        city = City.query.get(search.city_id)
+        all_cities.append(city)
+    return render_template('account.html', last_cities=last_cities, favorites_cities=favorites_cities, all_cities=all_cities, google_key=current_app.config['MAPS_API_KEY'])
 
 
 

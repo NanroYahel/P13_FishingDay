@@ -1,6 +1,6 @@
 """File containing the function called by the views"""
 
-import datetime
+from datetime import datetime
 import calendar
 import time
 import arrow
@@ -99,6 +99,8 @@ def save_user_search(user, city, lat, lon):
         if check_search is not None:
             #If the search has already been made, increment the count
             check_search.count += 1
+            check_search.timestamp = datetime.utcnow()
+
             db.session.commit()
         else:
             #Save the search

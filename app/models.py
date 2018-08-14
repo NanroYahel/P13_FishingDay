@@ -36,5 +36,5 @@ class UserSearch(db.Model):
     """Class used to stock the searches for an user"""
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)
     city_id = db.Column(db.Integer, db.ForeignKey('city.id'), primary_key=True)
-    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow())
     count = db.Column(db.Integer, index=True)

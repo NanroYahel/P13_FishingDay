@@ -4,6 +4,7 @@ import json
 import os
 import tempfile
 from datetime import datetime
+from flask_login import login_user
 
 import pytest
 
@@ -38,6 +39,7 @@ def init_database():
 
     #Insert 1 user, 1 city an 1 search
     user = User(username='Cartman', email='eric@cartman.com')
+    user.set_password('password')
     city = City(name='South Park', lat=39.22, lon=-105.99)
     db.session.add(user)
     db.session.add(city)
@@ -49,6 +51,13 @@ def init_database():
     yield db
 
     db.drop_all()
+
+def login(client, email, password):
+    return client.post('/login', data=dict(
+        email=email,
+        password=password
+    ), follow_redirects=True)
+
 
 ########## Testing Flask routes ###########
 
@@ -95,6 +104,14 @@ class TestRoutes(object):
         rv_get = client.get('result')
         assert rv_post.status_code == 200
         assert rv_get.status_code == 405
+
+    def test_account_route(self, client, init_database):
+        """Test that the account view return the elements in the database for the user Cartman"""
+        login(client, 'eric@cartman.com', 'password')
+        rv = client.get('/account')
+        assert rv.status_code == 200
+        assert b"Cartman" in rv.data
+        assert b"SOUTH PARK" in rv.data
 
 
 ########## Testing functions of 'utils.py' module #######

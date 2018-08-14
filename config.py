@@ -8,6 +8,7 @@ class Config(object):
 	SECRET_KEY = os.environ.get('SECRET_KEY') or 'dev-secret-key'
 	OWM_API_KEY = os.environ.get('OWM_API_KEY')
 	WT_API_KEY = os.environ.get('WT_API_KEY')
+	MAPS_API_KEY = os.environ.get('MAPS_API_KEY')
 	#DATABASE
 	SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
 		'sqlite:///' + os.path.join(BASEDIR, 'app.db')
@@ -18,6 +19,7 @@ class ConfigTest(object):
 	SECRET_KEY = 'fake_secret_key'
 	OWM_API_KEY = 'fake_owm_api_key'
 	WT_API_KEY = 'fake_wt_api_key'
+	MAPS_API_KEY = 'fake_maps_api_key'
 	DEBUG = True
 	# DATABASE
 	SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(BASEDIR, 'app_test.db')
