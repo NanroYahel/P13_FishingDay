@@ -1,12 +1,13 @@
 """File containing the function called by the views"""
 
-import datetime
+from datetime import datetime
 import calendar
 import time
 import arrow
 import requests as req
-
-from app import app
+from flask import current_app
+from app import db
+from app.models import User, City, UserSearch
 
 
 #TO DELETE
@@ -27,7 +28,7 @@ def request_api(url):
 def get_meteo_for_city(city):
     """Method to get the meteo data with the api"""
     url = "http://api.openweathermap.org/data/2.5/forecast?q={},fr&mode=json&APPID={}".format(city,\
-        app.config['OWM_API_KEY'])
+        current_app.config['OWM_API_KEY'])
     meteo_data = request_api(url)
     # meteo_data = mock_meteo #Use for development
     list_meteo_day = []
@@ -43,7 +44,7 @@ def get_tides_for_city(lat, lon):
     """Method to get the tides data with the api"""
     today = time.time()
     url = "https://www.worldtides.info/api?extremes&start={}&length=259200&lat={}&lon={}&key={}".\
-            format(today, lat, lon, app.config['WT_API_KEY'])
+            format(today, lat, lon, current_app.config['WT_API_KEY'])
     tides_data = request_api(url)
     # tides_data = mock_tides #Use for development
     list_tides_extreme = []
@@ -87,8 +88,53 @@ def find_weekday(datetime):
     return weekdays[weekday]
 
 
-####### Classes #######
+###### Functions used to interact with the db ######
 
+def save_user_search(user, city, lat, lon):
+    """Save the city if it not exists and then save the search"""
+    #Check if the city is already in the database
+    city_searched = find_city(city, lat, lon)
+    if city_searched is not False:
+        #Check if the search has already been made by this user if city exists
+        check_search = UserSearch.query.get((user, city_searched))
+        if check_search is not None:
+            #If the search has already been made, increment the count
+            check_search.count += 1
+            check_search.timestamp = datetime.utcnow()
+
+            db.session.commit()
+        else:
+            #Save the search
+            save_search(user, city_searched)
+    else:
+        #Save the city if it doesn't exists and then save the search
+        save_city(city, lat, lon)
+        city_searched = City.query.filter_by(name=city, lat=lat, lon=lon).first()
+        save_search(user, city_searched.id)
+
+def find_city(city, lat, lon):
+    """Return False if the city doesn't exists in the database or the id if it does """
+    city_to_find = City.query.filter_by(name=city, lat=lat, lon=lon)
+    if city_to_find.all() == []:
+        city_searched = False
+    else:
+        city_searched = city_to_find.first().id
+    return city_searched
+
+def save_city(city, lat, lon):
+    """Save a city in the database"""
+    city_to_save = City(name=city, lat=lat, lon=lon)
+    db.session.add(city_to_save)
+    db.session.commit()
+
+def save_search(user_id, city_id):
+    """Save a user search in the database"""
+    search_to_save = UserSearch(user_id=user_id, city_id=city_id, count=1)
+    db.session.add(search_to_save)
+    db.session.commit()
+
+
+####### Classes #######
 
 class MeteoDay:
     """Class containing all the meteo informations for a period"""
