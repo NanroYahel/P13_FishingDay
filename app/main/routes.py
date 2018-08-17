@@ -21,6 +21,7 @@ def index():
 def result():
     """View used to display result of the users search"""
     city = request.form['location']
+    city = city.replace(' ', '-').lower() #modify string to avoid error with the APIs.
     try:
         lat, lon, meteo_data = utils.get_meteo_for_city(city)
         tides_data = utils.get_tides_for_city(lat, lon)
@@ -88,27 +89,24 @@ def account():
     favorites_cities = []
     all_cities = []
     #Search the 5 lasts cities searched and add it to the list
-    last_searches = UserSearch.query.filter_by(user_id=current_user.id).order_by(UserSearch.timestamp.desc()).limit(5).all()
+    last_searches = UserSearch.query.filter_by(user_id=current_user.id).order_by(\
+                    UserSearch.timestamp.desc()).limit(5).all()
     for search in last_searches:
         city = City.query.get(search.city_id)
         date = arrow.get(search.timestamp).to('Europe/Paris')
-        last_cities.append({'city': city, 'date': date.strftime('%d/%m/%y %H:%M:%S')})
+        last_cities.append({'city': city, 'date': date.strftime('%d/%m/%y à %H:%M')})
     #Search the 5 most searched cities and add it to the list
-    favorites_search = UserSearch.query.filter_by(user_id=current_user.id).order_by(UserSearch.count.desc()).limit(5).all()
+    favorites_search = UserSearch.query.filter_by(user_id=current_user.id).order_by(\
+                        UserSearch.count.desc()).limit(5).all()
     for search in favorites_search:
         city = City.query.get(search.city_id)
-        favorites_cities.append(city)
+        count = search.count
+        favorites_cities.append({'city': city, 'count': count})
+    #Get all search to display it on a map
     all_searches = UserSearch.query.filter_by(user_id=current_user.id).all()
     for search in all_searches:
         city = City.query.get(search.city_id)
         all_cities.append(city)
-    return render_template('account.html', last_cities=last_cities, favorites_cities=favorites_cities, all_cities=all_cities, google_key=current_app.config['MAPS_API_KEY'])
-
-
-
-# @app.route('/test_result')
-# def test_result():
-#   """TEST VIEW FOR DEVELOPMENT- TO DELETE"""
-#   lat, lon, meteo_data = utils.get_meteo_for_city('test')
-#   tides_data = utils.get_tides_for_city(lat, lon)
-#   return render_template('test_result.html', city='TEST', meteo=meteo_data, tides=tides_data)
+    return render_template('account.html', last_cities=last_cities, \
+                            favorites_cities=favorites_cities, all_cities=all_cities, \
+                            google_key=current_app.config['MAPS_API_KEY'])

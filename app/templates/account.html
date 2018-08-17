@@ -13,35 +13,44 @@
 
   	<h1 class="text-center">{{ current_user.username }}</h1>
 
-    <div class="row my-5 mx-5">
+    <div class="row my-5 mx-3">
       <div class="col-lg-6 table-search-result">
-        <div class="col-lg-12 user-result" id="favorites-searches">
-          <h2>Mes spots favoris : </h2>
+        <div class="col-lg-12 user-result mx-auto" id="favorites-searches">
+          <h2><u>Mes spots favoris : </u></h2>
           <div class="table-responsive">
-            <table class="table table-bordered">
+            <table class="table">
               <tbody>
                 {% for city in favorites_cities %}
-                <tr>
-                  <td>{{city.name.upper()}}</td>
+                    <tr style="background-color: rgba(133, 193, 223, {{ (loop.index + 2)/10 }});">
+                  <td>
+                    <form action="{{ url_for('main.result') }}" method="post">
+                      <input type="hidden" name="location" value="{{ city['city'].name }}">
+                      <input type="submit" value="{{ city['city'].name.upper() }}" class="favorite-link">
+                    </form>
+                  </td>
+                  <td class="text-center">Recherché {{ city['count'] }} fois.</td>
                 </tr>
                 {% endfor %}
               </tbody>
             </table>
           </div>
         </div>
-        <div class="row mx-auto mt-2" id="lasts-searches">
-          <div class="col-lg-12 user-result">
-            <h2>Dernières recherches : </h2>
+        <div class="row mx-auto mt-2">
+          <div class="col-lg-12 user-result" id="lasts-searches">
+            <h2><u>Dernières recherches : </u></h2>
             <div class="table-responsive">
-              <table class="table table-bordered">
+              <table class="table">
                 <tbody>
-                  <th>Ville</th>
-                  <th>Date</th>
                   {% for city in last_cities %}
-                  <tr>
-                    <td>{{city['city'].name.upper()}}</td>
-                    <td class="text-center">{{city['date']}}</td>
-                  </tr>
+                    <tr style="background-color: rgba(133, 193, 223, {{ (7 - loop.index)/10 }});">
+                      <td>
+                        <form action="{{ url_for('main.result') }}" method="post">
+                          <input type="hidden" name="location" value="{{ city['city'].name }}">
+                          <input type="submit" value="{{ city['city'].name.upper() }}" class="favorite-link">
+                        </form>
+                      </td>
+                      <td class="text-center">Le {{city['date']}}</td>
+                    </tr>
                   {% endfor %}
                 </tbody>
               </table>
@@ -50,7 +59,7 @@
         </div>
       </div>
         <div class="col-lg-6 map-favorites">
-          <h2 class="text-center">Toutes mes recherches</h2>
+          <h2 class="text-center"><u>Toutes mes recherches : </u></h2>
           <div id="map"></div>
         </div>
     </div>

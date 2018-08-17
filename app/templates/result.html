@@ -37,7 +37,7 @@
                 <th>Heure</th>
                 {% for date in meteo %}
                   {% if date.date.strftime('%d') == tides[0].time.strftime('%d') %}
-                  <td>{{ date.date.strftime('%H') }}h</td>
+                  <th>{{ date.date.strftime('%H') }}h</th>
                   {% endif %}
                 {% endfor %}
               </tr>
@@ -53,7 +53,7 @@
                 <th>Couverture nuageuse %</th>
                 {% for date in meteo %}
                   {% if date.date.strftime('%d') == tides[0].time.strftime('%d') %}
-                  <td>
+                  <td style="background-color:rgba(85,85,85,{{ date.cloud/100 }});">
                     {% if date.cloud == 0 %}
                       -
                     {% else %}
@@ -67,7 +67,7 @@
                 <th>Pluie (mm/3h)</th>
                 {% for date in meteo %}
                   {% if date.date.strftime('%d') == tides[0].time.strftime('%d') %}
-                  <td>
+                  <td style="background-color:rgba(88,118,230,{{ date.rain/4 }});">
                     {% if date.rain == 0 %}
                       -
                     {% else %}
@@ -81,7 +81,13 @@
                 <th>°C</th>
                 {% for date in meteo %}
                   {% if date.date.strftime('%d') == tides[0].time.strftime('%d') %}
-                  <td>{{ date.temp }}</td>
+                    {% if date.temp < 10 %}
+                      <td style="background-color: rgba(255, 255, {{ 200 - date.temp * 20}}, 0.6);">
+                    {% elif date.temp > 10 and date.temp < 30 %}
+                      <td style="background-color: rgba(255, {{ 255 - (date.temp -10) * 13}}, 0, 0.6);">
+                    {% endif %}
+                  {{ date.temp }}
+                  </td>
                   {% endif %}
                 {% endfor %}
               </tr>
@@ -105,7 +111,9 @@
                 <th>Force vent (Noeuds)</th>
                 {% for date in meteo %}
                   {% if date.date.strftime('%d') == tides[0].time.strftime('%d') %}
-                  <td>{{ date.wind_speed }}</td>
+                  <td style="background-color: rgba(82, 190, 128, {{ date.wind_speed*0.05 }});">
+                  {{ date.wind_speed }}
+                  </td>
                   {% endif %}
                 {% endfor %}
               </tr>
@@ -115,7 +123,7 @@
 
         <!-- Table displaying Tides informations -->
         <div class="col-lg-12 m-2 table-responsive">
-          <table id="tides-table" class="table table-bordered">
+          <table id="tides-table" class="table">
             <thead> Marées </thead>
             <tbody>
               <tr>
@@ -123,35 +131,25 @@
                 <th>Type</th>
                 <th>Hauteur (m)</th>
               </tr>
-              <tr>
-                <td> 
-                  {% for tide in tides %}
-                    {% if tide.day == tides[0].day %}
-                      <p> {{tide.time.strftime('%H:%M')}} </p>
+              {% for tide in tides %}
+                {% if tide.day == tides[0].day %}
+                  {% if tide.type == 'BM' %}
+                    <tr style="background-color: rgba(133, 193, 223, 0.2);">
+                  {% else %}
+                    <tr style="background-color: rgba(133, 193, 223, 0.6);">
+                  {% endif %}
+                  <td>{{ tide.time.strftime('%H:%M') }}</td>
+                  <td>{{ tide.type }}</td>
+                  <td>
+                    {% if tide.height < 0 %}
+                      {{ tide.height }} 
+                    {% else %}
+                      + {{ tide.height }}
                     {% endif %}
-                  {% endfor %}
-                </td>
-                <td>
-                  {% for tide in tides %}
-                    {% if tide.day == tides[0].day %}
-                      <p> {{ tide.type }} </p>
-                    {% endif %}
-                  {% endfor %}
-                </td>
-                <td>
-                  {% for tide in tides %}
-                    {% if tide.day == tides[0].day %}
-                      <p> 
-                        {% if tide.height < 0 %}
-                          {{ tide.height }} 
-                        {% else %}
-                          + {{ tide.height }}
-                        {% endif %}
-                      </p>
-                    {% endif %}
-                  {% endfor %}
-                </td>
-              </tr>
+                  </td>
+                </tr>
+                {% endif %}
+              {% endfor %}
               </tbody>
           </table>
         </div>
@@ -195,7 +193,7 @@
                 <th>Heure</th>
                 {% for date in meteo %}
                   {% if date.date.strftime('%d') == tides[4].time.strftime('%d') %}
-                  <td>{{ date.date.strftime('%H') }}h</td>
+                  <th>{{ date.date.strftime('%H') }}h</th>
                   {% endif %}
                 {% endfor %}
               </tr>
@@ -211,7 +209,7 @@
                 <th>Couverture nuageuse %</th>
                 {% for date in meteo %}
                   {% if date.date.strftime('%d') == tides[4].time.strftime('%d') %}
-                  <td>
+                  <td style="background-color:rgba(85,85,85,{{ date.cloud/100 }});">
                     {% if date.cloud == 0 %}
                       -
                     {% else %}
@@ -225,7 +223,7 @@
                 <th>Pluie (mm/3h)</th>
                 {% for date in meteo %}
                   {% if date.date.strftime('%d') == tides[4].time.strftime('%d') %}
-                  <td>
+                  <td style="background-color:rgba(88,118,230,{{ date.rain/4 }});">
                     {% if date.rain == 0 %}
                       -
                     {% else %}
@@ -239,7 +237,13 @@
                 <th>°C</th>
                 {% for date in meteo %}
                   {% if date.date.strftime('%d') == tides[4].time.strftime('%d') %}
-                  <td>{{ date.temp }}</td>
+                    {% if date.temp < 10 %}
+                      <td style="background-color: rgba(255, 255, {{ 200 - date.temp * 20}}, 0.6);">
+                    {% elif date.temp > 10 and date.temp < 30 %}
+                      <td style="background-color: rgba(255, {{ 255 - (date.temp -10) * 13}}, 0, 0.6);">
+                    {% endif %}
+                  {{ date.temp }}
+                  </td>
                   {% endif %}
                 {% endfor %}
               </tr>
@@ -263,7 +267,9 @@
                 <th>Force vent (Noeuds)</th>
                 {% for date in meteo %}
                   {% if date.date.strftime('%d') == tides[4].time.strftime('%d') %}
-                  <td>{{ date.wind_speed }}</td>
+                  <td style="background-color: rgba(82, 190, 128, {{ date.wind_speed*0.05 }});">
+                  {{ date.wind_speed }}
+                  </td>
                   {% endif %}
                 {% endfor %}
               </tr>
@@ -273,7 +279,7 @@
 
         <!-- Table displaying Tides informations -->
         <div class="col-lg-12 table-responsive">
-          <table id="tides-table" class="table table-bordered">
+          <table id="tides-table" class="table">
             <thead> Marées </thead>
             <tbody>
               <tr>
@@ -281,35 +287,25 @@
                 <th>Type</th>
                 <th>Hauteur (m)</th>
               </tr>
-              <tr>
-                <td> 
-                  {% for tide in tides %}
-                    {% if tide.day == tides[4].day %}
-                      <p> {{tide.time.strftime('%H:%M')}} </p>
+              {% for tide in tides %}
+                {% if tide.day == tides[4].day %}
+                  {% if tide.type == 'BM' %}
+                    <tr style="background-color: rgba(133, 193, 223, 0.2);">
+                  {% else %}
+                    <tr style="background-color: rgba(133, 193, 223, 0.6);">
+                  {% endif %}
+                  <td>{{ tide.time.strftime('%H:%M') }}</td>
+                  <td>{{ tide.type }}</td>
+                  <td>
+                    {% if tide.height < 0 %}
+                      {{ tide.height }} 
+                    {% else %}
+                      + {{ tide.height }}
                     {% endif %}
-                  {% endfor %}
-                </td>
-                <td>
-                  {% for tide in tides %}
-                    {% if tide.day == tides[4].day %}
-                      <p> {{ tide.type }} </p>
-                    {% endif %}
-                  {% endfor %}
-                </td>
-                <td>
-                  {% for tide in tides %}
-                    {% if tide.day == tides[4].day %}
-                      <p>
-                        {% if tide.height < 0 %}
-                          {{ tide.height }} 
-                        {% else %}
-                          + {{ tide.height }}
-                        {% endif %} 
-                      </p>
-                    {% endif %}
-                  {% endfor %}
-                </td>
-              </tr>
+                  </td>
+                </tr>
+                {% endif %}
+              {% endfor %}
               </tbody>
           </table>
         </div>
@@ -326,7 +322,7 @@
                 <th>Heure</th>
                 {% for date in meteo %}
                   {% if date.date.strftime('%d') == tides[8].time.strftime('%d') %}
-                  <td>{{ date.date.strftime('%H') }}h</td>
+                  <th>{{ date.date.strftime('%H') }}h</th>
                   {% endif %}
                 {% endfor %}
               </tr>
@@ -342,7 +338,7 @@
                 <th>Couverture nuageuse %</th>
                 {% for date in meteo %}
                   {% if date.date.strftime('%d') == tides[8].time.strftime('%d') %}
-                  <td>
+                  <td style="background-color:rgba(85,85,85,{{ date.cloud/100 }});">
                     {% if date.cloud == 0 %}
                       -
                     {% else %}
@@ -356,7 +352,7 @@
                 <th>Pluie (mm/3h)</th>
                 {% for date in meteo %}
                   {% if date.date.strftime('%d') == tides[8].time.strftime('%d') %}
-                  <td>
+                  <td style="background-color:rgba(88,118,230,{{ date.rain/4 }});">
                     {% if date.rain == 0 %}
                       -
                     {% else %}
@@ -370,7 +366,13 @@
                 <th>°C</th>
                 {% for date in meteo %}
                   {% if date.date.strftime('%d') == tides[8].time.strftime('%d') %}
-                  <td>{{ date.temp }}</td>
+                    {% if date.temp < 10 %}
+                      <td style="background-color: rgba(255, 255, {{ 200 - date.temp * 20}}, 0.6);">
+                    {% elif date.temp > 10 and date.temp < 30 %}
+                      <td style="background-color: rgba(255, {{ 255 - (date.temp -10) * 13}}, 0, 0.6);">
+                    {% endif %}
+                  {{ date.temp }}
+                  </td>
                   {% endif %}
                 {% endfor %}
               </tr>
@@ -394,7 +396,9 @@
                 <th>Force vent (Noeuds)</th>
                 {% for date in meteo %}
                   {% if date.date.strftime('%d') == tides[8].time.strftime('%d') %}
-                  <td>{{ date.wind_speed }}</td>
+                  <td style="background-color: rgba(82, 190, 128, {{ date.wind_speed*0.05 }});">
+                  {{ date.wind_speed }}
+                  </td>
                   {% endif %}
                 {% endfor %}
               </tr>
@@ -404,7 +408,7 @@
 
         <!-- Table displaying Tides informations -->
         <div class="col-lg-12 table-responsive">
-          <table id="tides-table" class="table table-bordered">
+          <table id="tides-table" class="table">
             <thead> Marées </thead>
             <tbody>
               <tr>
@@ -412,35 +416,25 @@
                 <th>Type</th>
                 <th>Hauteur (m)</th>
               </tr>
-              <tr>
-                <td> 
-                  {% for tide in tides %}
-                    {% if tide.day == tides[8].day %}
-                      <p> {{tide.time.strftime('%H:%M')}} </p>
+              {% for tide in tides %}
+                {% if tide.day == tides[8].day %}
+                  {% if tide.type == 'BM' %}
+                    <tr style="background-color: rgba(133, 193, 223, 0.2);">
+                  {% else %}
+                    <tr style="background-color: rgba(133, 193, 223, 0.6);">
+                  {% endif %}
+                  <td>{{ tide.time.strftime('%H:%M') }}</td>
+                  <td>{{ tide.type }}</td>
+                  <td>
+                    {% if tide.height < 0 %}
+                      {{ tide.height }} 
+                    {% else %}
+                      + {{ tide.height }}
                     {% endif %}
-                  {% endfor %}
-                </td>
-                <td>
-                  {% for tide in tides %}
-                    {% if tide.day == tides[8].day %}
-                      <p> {{ tide.type }} </p>
-                    {% endif %}
-                  {% endfor %}
-                </td>
-                <td>
-                  {% for tide in tides %}
-                    {% if tide.day == tides[8].day %}
-                      <p>
-                        {% if tide.height < 0 %}
-                          {{ tide.height }} 
-                        {% else %}
-                          + {{ tide.height }}
-                        {% endif %}
-                      </p>
-                    {% endif %}
-                  {% endfor %}
-                </td>
-              </tr>
+                  </td>
+                </tr>
+                {% endif %}
+              {% endfor %}
               </tbody>
           </table>
         </div>

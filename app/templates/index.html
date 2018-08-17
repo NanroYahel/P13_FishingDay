@@ -40,15 +40,15 @@
 
     <!-- Project One Row -->
     <div class="row justify-content-center no-gutters mb-1 mb-lg-0">
-      <div class="col-lg-6">
-        <img class="img-fluid" src="{{ url_for('static', filename='img/meteo_screen.png') }}" alt="">
+      <div class="col-lg-6 my-auto mx-auto">
+        <img class="img-fluid" src="{{ url_for('static', filename='img/meteo.png') }}" alt="">
       </div>
       <div class="col-lg-6">
         <div class="bg-project text-center h-100 project">
           <div class="d-flex h-100">
             <div class="project-text w-100 my-auto text-center text-lg-left">
               <h4 class="text-white">Meteo</h4>
-              <p class="mb-0 text-white-50">L'essentiel de la météo du jour : Ensoleillement, température, direction du vent.</p>
+              <p class="mb-0 text-white-50">L'essentiel de la météo du jour : Ensoleillement, température, direction du vent...</p>
               <hr class="d-none d-lg-block mb-0 ml-0">
             </div>
           </div>
@@ -58,15 +58,15 @@
 
     <!-- Project Two Row -->
     <div class="row justify-content-center no-gutters mb-1 mb-lg-0">
-      <div class="col-lg-6">
-        <img class="img-fluid" src="{{ url_for('static', filename='img/tides_screen.png') }}" alt="">
+      <div class="col-lg-6 my-auto mx-auto">
+        <img class="img-fluid" src="{{ url_for('static', filename='img/tides.png') }}" alt="">
       </div>
       <div class="col-lg-6 order-lg-first">
         <div class="bg-project text-center h-100 project">
           <div class="d-flex h-100">
             <div class="project-text w-100 my-auto text-center text-lg-right">
               <h4 class="text-white">Marée</h4>
-              <p class="mb-0 text-white-50">Les horaires des marées et leur coëfficient.</p>
+              <p class="mb-0 text-white-50">Les horaires des marées.</p>
               <hr class="d-none d-lg-block mb-0 mr-0">
             </div>
           </div>
@@ -76,8 +76,8 @@
 
     <!-- Project Three Row -->
     <div class="row justify-content-center no-gutters mb-1 mb-lg-0">
-      <div class="col-lg-6 mx-auto my-auto">
-        <img class="img-fluid" src="{{ url_for('static', filename='img/no_img.png') }}" alt="">
+      <div class="col-lg-6 mx-auto my-auto mx-auto">
+        <img class="img-fluid" src="{{ url_for('static', filename='img/map.png') }}" alt="">
       </div>
       <div class="col-lg-6">
         <div class="bg-project text-center h-100 project">
@@ -101,14 +101,8 @@
     <div class="row">
       <div class="col-md-10 col-lg-8 mx-auto text-center">
 
-        <i class="far fa-paper-plane fa-2x mb-2 text-white"></i>
-        <h2 class="text-white mb-5">Inscrivez-vous à la newsletter pour recevoir les dernières informations.</h2>
-
-        <form class="form-inline d-flex">
-          <input type="email" class="form-control flex-fill mr-0 mr-sm-2 mb-3 mb-sm-0" id="inputEmail" placeholder="Entrez votre adresse email">
-          <button type="submit" class="btn btn-primary mx-auto">S'inscrire</button>
-        </form>
-
+        <h2 class="mb-5 text-white">Créez un compte pour retrouver vos recherches favorites.</h2>
+          <a class="btn btn-primary text-white mx-auto" href="{{ url_for('main.register') }}">S'inscrire</a>
       </div>
     </div>
   </div>
@@ -116,6 +110,5 @@
 
 
   </div>
-</section>
 
 {% endblock %}

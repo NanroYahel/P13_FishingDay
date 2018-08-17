@@ -92,9 +92,6 @@
   line-height: 2.5rem;
   letter-spacing: 0.8rem;
   word-spacing: -150%;
-/*  background: -webkit-linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0));
-  -webkit-text-fill-color: transparent;
-  -webkit-background-clip: text;*/
 }
 
 .masthead h2 {
@@ -194,8 +191,7 @@
 
 .signup-section {
   padding: 10rem 0;
-  background:  url("../img/boat_cut.png");
-  /*background: linear-gradient(to bottom, rgba(22, 22, 22, 0.1) 0%, rgba(22, 22, 22, 0.2) 75%, #161616 100%), url("../img/boat.svg");*/
+  background:  url("../img/sea_index.png");
   background-position: bottom;
   background-repeat: no-repeat;
   background-attachment: scroll;
@@ -277,8 +273,6 @@ a:focus, a:hover {
 }
 
 .bg-black {
-  /*background-color: #161616 !important;*/
-/*  background-color: #00828D !important;*/
   background:  url("../img/boat.svg");
   background-repeat: no-repeat;
   background-size: cover;
@@ -441,10 +435,24 @@ header .form-error{
   #favorites-searches{
     min-height: 150px;
   }
+
+  .user-result{
+    padding-right: 0px;
+    padding-left: 0px;
+  }
+
+  .table-search-result{
+    padding-left: 0px;
+    padding-right: 0px;
+  }
 } 
 
 .table-search-result{
   height: 100%;
+}
+
+.table-search-result table td, .table-search-result table th{
+  border-top: 0;
 }
 
 .map-favorites{
@@ -467,4 +475,31 @@ header .form-error{
   #map{
     min-height: 500px;
   }
-} 
+}
+
+#meteo-table th, #tides-table th{
+  background-color: rgba(215, 219, 221, 0.4);
+}
+
+#tides-table{
+  border: 1px solid rgba(0,0,0,.1);
+}
+
+.favorite-link{
+  color:black;
+  background: transparent;
+  border:none;
+}
+
+.favorite-link:hover{
+  color:#64a19d;
+  cursor:pointer;
+}
+
+#lasts-searches th{
+  background-color: rgba(215, 219, 221, 0.4);
+}
+
+#favorites-searches{
+  font-size: 1em;
+}
