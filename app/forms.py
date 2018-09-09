@@ -19,10 +19,10 @@ class LoginForm(FlaskForm):
 
 class RegistrationForm(FlaskForm):
 	"""Form used for Registration"""
-	username = StringField('Username', validators=[DataRequired()])
+	username = StringField('Identifiant', validators=[DataRequired()])
 	email = StringField('Email', validators=[DataRequired(), Email()])
-	password = PasswordField('Password', validators=[DataRequired()])
-	password_confirm = PasswordField('Password_confirm', validators=[DataRequired(), EqualTo('password')])
+	password = PasswordField('Mot de passe', validators=[DataRequired()])
+	password_confirm = PasswordField('Confirmation mot de passe', validators=[DataRequired(), EqualTo('password')])
 	submit = SubmitField('S\'inscrire')
 
 	def validate_username(self, username):

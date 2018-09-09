@@ -75,8 +75,9 @@ def register():
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
-        flash('Merci pour votre inscription. Connectez-vous pour continuer !')
-        return redirect(url_for('main.login'))
+        flash('Merci pour votre inscription !')
+        login_user(user)
+        return redirect(url_for('main.index'))
     return render_template('register.html', form=form)
 
 
