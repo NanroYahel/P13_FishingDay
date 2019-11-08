@@ -81,7 +81,7 @@
                 <th>°C</th>
                 {% for date in meteo %}
                   {% if date.date.strftime('%d') == tides[0].time.strftime('%d') %}
-                    {% if date.temp =< 10 %}
+                    {% if date.temp < 11 %}
                       <td style="background-color: rgba(255, 255, {{ 200 - date.temp * 20}}, 0.6);">
                     {% elif date.temp > 10 and date.temp < 30 %}
                       <td style="background-color: rgba(255, {{ 255 - (date.temp -10) * 13}}, 0, 0.6);">
